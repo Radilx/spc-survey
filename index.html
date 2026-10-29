@@ -57,7 +57,6 @@ main { padding: 64px 0 96px; min-height: 65vh; }
 .options li:last-child .option { border-bottom: 0; }
 .option input { width: 18px; height: 18px; margin: 3px 0 0; flex-shrink: 0; accent-color: var(--ink); cursor: pointer; }
 .option:hover span { color: var(--accent); }
-.option.long { font-size: var(--text-body); line-height: 1.55; }
 
 .explain, textarea { display: block; width: 100%; margin-top: 4px; padding: 10px 0; background: transparent; border: 0; border-bottom: 1px solid #a3a19c; border-radius: 0; font-size: var(--text-body); resize: vertical; }
 .explain:focus, textarea:focus { outline: none; border-color: var(--ink); }
@@ -243,22 +242,22 @@ textarea { min-height: 120px; margin-top: 20px; line-height: 1.5; }
       <section class="q" id="q9">
         <p class="q-num">Question 9</p>
         <div>
-          <h2>Any other feedback you have for us?</h2>
-          <p class="hint">Optional.</p>
-          <textarea name="q9" rows="4" maxlength="5000" aria-label="Other feedback"></textarea>
+          <h2>Many of our recent debates have centered on definitions. Which of the following do you feel is appropriate?</h2>
+          <ul class="options">
+            <li><label class="option"><input type="radio" name="q9" value="Leave rules unchanged"><span>Leave the rules unchanged and allow people to debate about definitions</span></label></li>
+            <li><label class="option"><input type="radio" name="q9" value="Align on definitions first"><span>Force teams to align on key definitions before the debate starts (and before they know which side they’re on)</span></label></li>
+            <li><label class="option"><input type="radio" name="q9" value="Restrict to first two speakers"><span>Restrict debates about definitions to the first two speakers, and heavily penalize nonstandard definitions that are not in the spirit of the question</span></label></li>
+          </ul>
+          <p class="missing">Pick an answer.</p>
         </div>
       </section>
 
       <section class="q" id="q10">
         <p class="q-num">Question 10</p>
         <div>
-          <h2>Many of our recent debates have centered on definitions.</h2>
-          <p class="hint" style="font-size:var(--text-body);color:var(--ink);margin-top:16px;max-width:680px">For example, for the topic “THW legally require individuals and organizations to disclose when their messages, emails, or calls are AI-generated,” we debated the meaning of “legally required” (whether it meant civil or criminal, and whether it implied serious penalties or something more akin to a traffic ticket). There has been some discussion internally about attempting to curb this by e.g. deciding on definitions as a group before assigning participants affirmative/negative. What is your opinion on this?</p>
-          <ul class="options">
-            <li><label class="option long"><input type="radio" name="q10" value="Keep definitions open"><span>I don’t think it makes sense to host a debate and subsequently restrict discussion about the meaning of words. The whole point of the debate is to decide whether a proposal is reasonable as written, and deciding ahead of time what everything means suffocates the debate and heavily restricts what teams can argue about.</span></label></li>
-            <li><label class="option long"><input type="radio" name="q10" value="Agree on definitions first"><span>Debates about definitions are tedious and often result in situations where teams talk past each other. Forcing everyone to align on what certain words mean forces teams to engage with each other’s arguments rather than constantly retreating and offering increasingly fringe interpretations of the motion.</span></label></li>
-          </ul>
-          <p class="missing">Pick an answer.</p>
+          <h2>Any other feedback you have for us?</h2>
+          <p class="hint">Optional.</p>
+          <textarea name="q10" rows="4" maxlength="5000" aria-label="Other feedback"></textarea>
         </div>
       </section>
 
@@ -328,12 +327,12 @@ const text = name => form.elements[name].value.trim();
 form.addEventListener('submit', async e => {
   e.preventDefault();
   errorEl.textContent = '';
-  const required = ['q1', 'q2', 'q3', 'q5', 'q6', 'q7', 'q8', 'q10'];
+  const required = ['q1', 'q2', 'q3', 'q5', 'q6', 'q7', 'q8', 'q9'];
   const missing = required.filter(q => !radio(q));
   if (ranking.length !== rankButtons.length) missing.push('q4');
   form.querySelectorAll('.q').forEach(s => s.classList.toggle('invalid', missing.includes(s.id)));
   if (missing.length) {
-    const first = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q10'].find(q => missing.includes(q));
+    const first = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9'].find(q => missing.includes(q));
     document.getElementById(first).scrollIntoView({ behavior: 'smooth', block: 'start' });
     errorEl.textContent = missing.length === 1 ? 'One question still needs an answer.' : `${missing.length} questions still need answers.`;
     return;
@@ -344,7 +343,7 @@ form.addEventListener('submit', async e => {
     q1: s(radio('q1')), q2: s(radio('q2')), q3: s(radio('q3')),
     q4: { arrayValue: { values: ranking.map(s) } },
     q5: s(radio('q5')), q6: s(radio('q6')), q7: s(radio('q7')), q8: s(radio('q8')),
-    q9: s(text('q9')), q10: s(radio('q10')),
+    q9: s(radio('q9')), q10: s(text('q10')),
   };
   if (text('name')) fields.name = s(text('name'));
   if (radio('q1') === 'Not yet') fields.q1Explain = s(text('q1Explain'));
