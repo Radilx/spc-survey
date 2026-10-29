@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Survey — South Park Debating</title>
+<meta name="description" content="A short survey about Tuesday night debates at South Park.">
+<link rel="icon" href="https://jacknzheng.github.io/south-park-debating/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --text-h1: 40px; --text-h2: 28px; --text-body: 17px; --text-small: 15px; --text-tiny: 13px;
+  --ink: #161615; --muted: #74726f; --line: #d8d6d2; --paper: #f8f7f5; --accent: #8f3602;
+  --serif: "Libre Caslon Text", Georgia, serif;
+  --sans: Inter, Arial, sans-serif;
+  font-family: var(--sans); font-size: var(--text-body); color: var(--ink); background: var(--paper);
+}
+* { box-sizing: border-box; }
+body { background: var(--paper); margin: 0; }
+h1, h2, h3, p { margin: 0; }
+h1 { font-family: var(--serif); font-weight: 400; line-height: 1.05; letter-spacing: -.035em; font-size: clamp(36px, 1.044rem + 3.014vw, 63px); }
+p { line-height: 1.5; }
+a { color: inherit; text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 1px; }
+button, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid #6d2928; outline-offset: 5px; }
+
+.site-frame { max-width: 1424px; margin: 0 auto; padding: 0 40px; }
+.site-header { border-bottom: 1px solid var(--ink); display: flex; justify-content: space-between; align-items: center; gap: 40px; min-height: 120px; }
+.wordmark { display: flex; align-items: center; gap: 20px; white-space: nowrap; }
+.wordmark:hover { text-decoration: none; }
+.wordmark img { width: 48px; height: 48px; mix-blend-mode: multiply; filter: brightness(1.06) contrast(1.1); }
+.wordmark span { font-size: var(--text-h2); font-weight: 600; letter-spacing: -.3px; line-height: 1; border-left: 1px solid var(--ink); padding: 10px 0 10px 20px; }
+.site-header nav { display: flex; flex-wrap: wrap; gap: 16px 32px; font-size: var(--text-small); }
+.site-header nav a { padding: 10px 0; }
+.site-header nav a.active { text-decoration: underline; text-underline-offset: 8px; text-decoration-thickness: 1px; }
+
+main { padding: 64px 0 96px; min-height: 65vh; }
+.intro { font-size: var(--text-h2); line-height: 1.25; max-width: 760px; margin-top: 24px; }
+.count { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; margin-top: 56px; padding-bottom: 16px; border-bottom: 1px solid var(--ink); }
+.count p:first-child { text-transform: uppercase; letter-spacing: .08em; }
+.subtle { color: var(--muted); font-size: var(--text-small); }
+
+.q { display: grid; grid-template-columns: 200px minmax(0, 760px); gap: 40px; padding: 36px 0; border-bottom: 1px solid var(--line); scroll-margin-top: 24px; }
+.q-num { color: var(--muted); font-size: var(--text-small); }
+.q-num .tag { margin-left: 8px; }
+.q h2 { font-family: var(--sans); font-weight: 400; font-size: var(--text-h2); letter-spacing: -.3px; line-height: 1.2; text-wrap: pretty; }
+.q h2 a { text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 1px; }
+.q h2 a:hover { color: var(--accent); }
+.q .hint { color: var(--muted); font-size: var(--text-small); margin-top: 10px; }
+.q .missing { display: none; color: var(--accent); font-size: var(--text-small); margin-top: 14px; }
+.q.invalid .missing { display: block; }
+.tag { display: inline-block; border: 1px solid var(--line); font-size: var(--text-tiny); text-transform: uppercase; letter-spacing: .06em; padding: 2px 8px; }
+
+.options { list-style: none; margin: 16px 0 0; padding: 0; }
+.option { display: flex; align-items: flex-start; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--line); cursor: pointer; font-size: 20px; line-height: 1.35; }
+.options li:last-child .option { border-bottom: 0; }
+.option input { width: 20px; height: 20px; margin: 3px 0 0; flex-shrink: 0; accent-color: var(--ink); cursor: pointer; }
+.option:hover span { color: var(--accent); }
+.option.long { font-size: var(--text-body); line-height: 1.55; }
+
+.explain, textarea { display: block; width: 100%; margin-top: 4px; padding: 10px 0; background: transparent; border: 0; border-bottom: 1px solid #a3a19c; border-radius: 0; font-size: var(--text-body); resize: vertical; }
+.explain:focus, textarea:focus { outline: none; border-color: var(--ink); }
+.explain[hidden] { display: none; }
+textarea { min-height: 120px; margin-top: 20px; line-height: 1.5; }
+
+.rank { list-style: none; margin: 16px 0 0; padding: 0; }
+.rank button { display: flex; align-items: center; gap: 16px; width: 100%; padding: 18px 0; border: 0; border-bottom: 1px solid var(--line); background: none; text-align: left; font-size: 20px; line-height: 1.35; }
+.rank li:last-child button { border-bottom: 0; }
+.rank button:hover span:last-child { color: var(--accent); }
+.rank .n { flex-shrink: 0; display: grid; place-items: center; width: 32px; height: 32px; border: 1px solid #a3a19c; border-radius: 50%; font-size: 15px; font-variant-numeric: tabular-nums; color: transparent; transition: background-color .15s, color .15s; }
+.rank .on .n { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.rank-reset { margin-top: 12px; padding: 0 0 3px; border: 0; border-bottom: 1px solid var(--ink); background: none; font-size: var(--text-small); }
+.rank-reset[hidden] { display: none; }
+
+
+.submit-row { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; margin-top: 48px; }
+.pill-button { display: inline-flex; gap: 12px; padding: 14px 28px; border: 0; border-radius: 999px; background: var(--ink); color: var(--paper); font-size: var(--text-body); }
+.pill-button:hover { opacity: .85; }
+.pill-button:disabled { opacity: .35; cursor: default; }
+.error { color: var(--accent); font-size: var(--text-small); }
+
+.done { padding: 40px 0 0; max-width: 760px; }
+.done .intro a { text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 1px; }
+
+.skip-link { position: absolute; top: -60px; left: 20px; z-index: 10; background: #fff; padding: 12px; }
+.skip-link:focus { top: 10px; }
+
+@media (width <= 1050px) {
+  :root { --text-h1: 34px; --text-h2: 24px; }
+  .site-frame { padding-inline: 28px; }
+  .site-header, .site-header nav { gap: 24px; }
+  .q { grid-template-columns: 150px minmax(0, 1fr); gap: 24px; }
+}
+@media (width <= 700px) {
+  :root { --text-h1: 30px; --text-h2: 22px; }
+  .site-frame { padding-inline: 16px; }
+  .site-header { display: block; min-height: 0; padding-top: 24px; }
+  .wordmark { gap: 14px; }
+  .wordmark img { width: 40px; height: 40px; }
+  .wordmark span { padding-left: 14px; }
+  .site-header nav { gap: 16px; margin-top: 16px; padding-bottom: 8px; }
+  main { padding: 40px 0 72px; }
+  .intro { font-size: 21px; }
+  .count { display: block; margin-top: 32px; }
+  .count .subtle { margin-top: 8px; }
+  .q { grid-template-columns: 1fr; gap: 12px; padding: 28px 0; }
+  .option, .rank button { font-size: 18px; }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="site-frame">
+  <header class="site-header">
+    <a href="https://jacknzheng.github.io/south-park-debating/" class="wordmark">
+      <img src="https://jacknzheng.github.io/south-park-debating/spc-logo.jpg" width="280" height="280" alt="South Park Commons">
+      <span>South Park Debating</span>
+    </a>
+    <nav aria-label="Main navigation">
+      <a href="https://jacknzheng.github.io/south-park-debating/">Home</a>
+      <a href="https://jacknzheng.github.io/south-park-debating/leaderboard">Leaderboard</a>
+      <a href="https://jacknzheng.github.io/south-park-debating/archive">Past debates</a>
+      <a href="https://jacknzheng.github.io/south-park-debating/topics">Topics</a>
+      <a href="https://jacknzheng.github.io/south-park-debating/rules">Rules</a>
+      <a class="active" href="./" aria-current="page">Survey</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <h1>Survey</h1>
+    <p class="intro">Help us shape Tuesday nights.</p>
+    <div class="count">
+      <p>10 questions</p>
+      <p class="subtle">About 3 minutes</p>
+    </div>
+
+    <form id="survey" novalidate>
+      <section class="q" id="name">
+        <p class="q-num">Your name</p>
+        <div>
+          <input class="explain" name="name" placeholder="Optional — leave blank to stay anonymous" maxlength="200" autocomplete="name" aria-label="Your name (optional)">
+        </div>
+      </section>
+      <section class="q" id="q1">
+        <p class="q-num">Question 1</p>
+        <div>
+          <h2>Have you attended a debate night?</h2>
+          <ul class="options">
+            <li><label class="option"><input type="radio" name="q1" value="Yes"><span>Yes</span></label></li>
+            <li><label class="option"><input type="radio" name="q1" value="Not yet"><span>Not yet!</span></label></li>
+          </ul>
+          <input class="explain" name="q1Explain" data-for="q1" data-when="Not yet" placeholder="What’s kept you away?" maxlength="1000" hidden>
+          <p class="missing">Pick an answer.</p>
+        </div>
+      </section>
+
+      <section class="q" id="q2">
+        <p class="q-num">Question 2</p>
+        <div>
+          <h2>What is the primary reason you’re interested in debating at SPC?</h2>
+          <ul class="options">
+            <li><label class="option"><input type="radio" name="q2" value="Improve public speaking"><span>To improve my public speaking skills</span></label></li>
+            <li><label class="option"><input type="radio" name="q2" value="Discover the truth"><span>To discover the truth about complex issues</span></label></li>
+            <li><label class="option"><input type="radio" name="q2" value="Meet interesting people"><span>To meet interesting people</span></label></li>
+            <li><label class="option"><input type="radio" name="q2" value="Have fun"><span>To have fun</span></label></li>
+          </ul>
+          <p class="missing">Pick an answer.</p>
+        </div>
+      </section>
+
+      <section class="q" id="q3">
+        <p class="q-num">Question 3</p>
+        <div>
+          <h2>Is the current time convenient for you, or is there a different date/time that would work better?</h2>
+          <ul class="options">
+            <li><label class="option"><input type="radio" name="q3" value="Current time is good"><span>The current time is good</span></label></li>
+            <li><label class="option"><input type="radio" name="q3" value="Another time"><span>Another time would be better</span></label></li>
+          </ul>
+          <input class="explain" name="q3Explain" data-for="q3" data-when="Another time" placeholder="Which day and time?" maxlength="1000" hidden>
+          <p class="missing">Pick an answer.</p>
+        </div>
+      </section>
+
+      <section class="q" id="q4">
+        <p class="q-num">Question 4</p>
+        <div>
+          <h2>Rank the following in order of how important they are to you.</h2>
+          <p class="hint">Tap them in order, most important first.</p>
+          <ol class="rank">
+            <li><button type="button" data-v="Interesting topic"><span class="n"></span><span>A topic I’m actually interested in</span></button></li>
+            <li><button type="button" data-v="Clear expectations and judging"><span class="n"></span><span>Clear expectations and judging</span></button></li>
+            <li><button type="button" data-v="Challenging, prepared opponents"><span class="n"></span><span>Opponents who challenge me and are well-prepared</span></button></li>
+            <li><button type="button" data-v="Individualized feedback"><span class="n"></span><span>Individualized feedback</span></button></li>
+            <li><button type="button" data-v="Consistent team"><span class="n"></span><span>Having a consistent team</span></button></li>
+          </ol>
+          <button type="button" class="rank-reset" hidden>Start over</button>
+          <p class="missing">Rank all five.</p>
+        </div>
+      </section>
+
+      <section class="q" id="q5">
+        <p class="q-num">Question 5</p>
+        <div>
+          <h2>What is your opinion on the current amount of time teams have to prepare?</h2>
+          <ul class="options">
+            <li><label class="option"><input type="radio" name="q5" value="More time"><span>I wish teams had more time — this would improve the quality of the debate</span></label></li>
+            <li><label class="option"><input type="radio" name="q5" value="Fine as is"><span>I think the current system is fine</span></label></li>
+            <li><label class="option"><input type="radio" name="q5" value="Less time"><span>I wish teams had less time — this would better test people’s ability to think on their feet</span></label></li>
+          </ul>
+          <p class="missing">Pick an answer.</p>
+        </div>
+      </section>
+
+      <section class="q" id="q6">
+        <p class="q-num">Question 6</p>
+        <div>
+          <h2>Presently, the debate topic is not known until immediately before the debate starts (since everyone in attendance has to vote on it). What is your opinion on the current system?</h2>
+          <ul class="options">
+            <li><label class="option"><input type="radio" name="q6" value="Fine as is"><span>I think the current system is fine</span></label></li>
+            <li><label class="option"><input type="radio" name="q6" value="Earlier that day"><span>I would prefer if the topic were released earlier on the day of the debate</span></label></li>
+            <li><label class="option"><input type="radio" name="q6" value="Much earlier"><span>I would prefer if the topic were released significantly earlier (e.g. a week in advance)</span></label></li>
+          </ul>
+          <p class="missing">Pick an answer.</p>
+        </div>
+      </section>
+
+      <section class="q" id="q7">
+        <p class="q-num">Question 7</p>
+        <div>
+          <h2>What is your opinion on the <a href="https://jacknzheng.github.io/south-park-debating/archive" target="_blank" rel="noopener">recent selection of debate topics</a>?</h2>
+          <ul class="options">
+            <li><label class="option"><input type="radio" name="q7" value="Too diverse"><span>Recent debate topics have been too diverse</span></label></li>
+            <li><label class="option"><input type="radio" name="q7" value="Fine / no opinion"><span>The recent topics are fine / no opinion</span></label></li>
+            <li><label class="option"><input type="radio" name="q7" value="Not diverse enough"><span>Recent debate topics have not been diverse enough</span></label></li>
+          </ul>
+          <p class="missing">Pick an answer.</p>
+        </div>
+      </section>
+
+      <section class="q" id="q8">
+        <p class="q-num">Question 8</p>
+        <div>
+          <h2>Would you be interested in watching debates between external guest speakers?</h2>
+          <ul class="options">
+            <li><label class="option"><input type="radio" name="q8" value="No"><span>No, I’m mostly just interested in debating myself.</span></label></li>
+            <li><label class="option"><input type="radio" name="q8" value="Yes"><span>Yes, I’m interested in watching other people debate.</span></label></li>
+          </ul>
+          <p class="missing">Pick an answer.</p>
+        </div>
+      </section>
+
+      <section class="q" id="q9">
+        <p class="q-num">Question 9</p>
+        <div>
+          <h2>Any other feedback you have for us?</h2>
+          <p class="hint">Optional.</p>
+          <textarea name="q9" rows="4" maxlength="5000" aria-label="Other feedback"></textarea>
+        </div>
+      </section>
+
+      <section class="q" id="q10">
+        <p class="q-num">Question 10</p>
+        <div>
+          <h2>Many of our recent debates have centered on definitions.</h2>
+          <p class="hint" style="font-size:var(--text-body);color:var(--ink);margin-top:16px;max-width:680px">For example, for the topic “THW legally require individuals and organizations to disclose when their messages, emails, or calls are AI-generated,” we debated the meaning of “legally required” (whether it meant civil or criminal, and whether it implied serious penalties or something more akin to a traffic ticket). There has been some discussion internally about attempting to curb this by e.g. deciding on definitions as a group before assigning participants affirmative/negative. What is your opinion on this?</p>
+          <ul class="options">
+            <li><label class="option long"><input type="radio" name="q10" value="Keep definitions open"><span>I don’t think it makes sense to host a debate and subsequently restrict discussion about the meaning of words. The whole point of the debate is to decide whether a proposal is reasonable as written, and deciding ahead of time what everything means suffocates the debate and heavily restricts what teams can argue about.</span></label></li>
+            <li><label class="option long"><input type="radio" name="q10" value="Agree on definitions first"><span>Debates about definitions are tedious and often result in situations where teams talk past each other. Forcing everyone to align on what certain words mean forces teams to engage with each other’s arguments rather than constantly retreating and offering increasingly fringe interpretations of the motion.</span></label></li>
+          </ul>
+          <p class="missing">Pick an answer.</p>
+        </div>
+      </section>
+
+      <div class="submit-row">
+        <button type="submit" class="pill-button">Submit <span aria-hidden="true">→</span></button>
+        <p class="error" id="error" role="alert"></p>
+      </div>
+    </form>
+  </main>
+</div>
+
+<script>
+// Responses are written straight to Firestore. The rules only allow creating documents in `responses`; nobody can read them from the browser.
+const PROJECT = 'spc-debate-survey-2026';
+const API_KEY = 'AIzaSyCxEZmdmzeV4Xe9j8L13iwyCE7SONTNdeA';
+const ENDPOINT = `https://firestore.googleapis.com/v1/projects/${PROJECT}/databases/(default)/documents/responses?key=${API_KEY}`;
+const DONE_KEY = 'spc-survey-submitted';
+
+const form = document.getElementById('survey');
+const errorEl = document.getElementById('error');
+
+const thanks = () => {
+  document.getElementById('main').innerHTML = `
+    <h1>Thank you</h1>
+    <div class="done">
+      <p class="intro">Your answers are in. See you Tuesday.</p>
+      <p class="intro"><a href="https://jacknzheng.github.io/south-park-debating/">Back to South Park Debating</a></p>
+    </div>`;
+  scrollTo(0, 0);
+};
+
+try { if (localStorage.getItem(DONE_KEY) && !location.search.includes('again')) thanks(); } catch {}
+
+// "Explain" fields show only for the answer that asks for one.
+form.querySelectorAll('.explain').forEach(input => {
+  form.querySelectorAll(`input[name="${input.dataset.for}"]`).forEach(radio => radio.addEventListener('change', () => {
+    input.hidden = radio.value !== input.dataset.when;
+    if (!input.hidden) input.focus();
+  }));
+});
+
+// Tap-to-rank.
+const ranking = [];
+const rankButtons = [...form.querySelectorAll('.rank button')];
+const resetBtn = form.querySelector('.rank-reset');
+const paintRank = () => {
+  rankButtons.forEach(b => {
+    const i = ranking.indexOf(b.dataset.v);
+    b.classList.toggle('on', i >= 0);
+    b.querySelector('.n').textContent = i >= 0 ? i + 1 : '';
+  });
+  resetBtn.hidden = !ranking.length;
+};
+rankButtons.forEach(b => b.addEventListener('click', () => {
+  const i = ranking.indexOf(b.dataset.v);
+  if (i >= 0) ranking.splice(i, 1); else ranking.push(b.dataset.v);
+  paintRank();
+  if (ranking.length === rankButtons.length) document.getElementById('q4').classList.remove('invalid');
+}));
+resetBtn.addEventListener('click', () => { ranking.length = 0; paintRank(); });
+
+form.addEventListener('change', e => e.target.closest('.q')?.classList.remove('invalid'));
+
+const radio = name => form.querySelector(`input[name="${name}"]:checked`)?.value || '';
+const text = name => form.elements[name].value.trim();
+
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+  errorEl.textContent = '';
+  const required = ['q1', 'q2', 'q3', 'q5', 'q6', 'q7', 'q8', 'q10'];
+  const missing = required.filter(q => !radio(q));
+  if (ranking.length !== rankButtons.length) missing.push('q4');
+  form.querySelectorAll('.q').forEach(s => s.classList.toggle('invalid', missing.includes(s.id)));
+  if (missing.length) {
+    const first = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q10'].find(q => missing.includes(q));
+    document.getElementById(first).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    errorEl.textContent = missing.length === 1 ? 'One question still needs an answer.' : `${missing.length} questions still need answers.`;
+    return;
+  }
+
+  const s = v => ({ stringValue: v });
+  const fields = {
+    q1: s(radio('q1')), q2: s(radio('q2')), q3: s(radio('q3')),
+    q4: { arrayValue: { values: ranking.map(s) } },
+    q5: s(radio('q5')), q6: s(radio('q6')), q7: s(radio('q7')), q8: s(radio('q8')),
+    q9: s(text('q9')), q10: s(radio('q10')),
+  };
+  if (text('name')) fields.name = s(text('name'));
+  if (radio('q1') === 'Not yet') fields.q1Explain = s(text('q1Explain'));
+  if (radio('q3') === 'Another time') fields.q3Explain = s(text('q3Explain'));
+
+  const btn = form.querySelector('.pill-button');
+  btn.disabled = true;
+  try {
+    const res = await fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ fields }) });
+    if (!res.ok) throw new Error(res.status);
+    try { localStorage.setItem(DONE_KEY, '1'); } catch {}
+    thanks();
+  } catch {
+    btn.disabled = false;
+    errorEl.textContent = 'That didn’t go through. Check your connection and try again.';
+  }
+});
+</script>
+</body>
+</html>
