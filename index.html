@@ -34,9 +34,6 @@ button { cursor: pointer; }
 .wordmark:hover { text-decoration: none; }
 .wordmark img { width: 48px; height: 48px; mix-blend-mode: multiply; filter: brightness(1.06) contrast(1.1); }
 .wordmark span { font-size: var(--text-h2); font-weight: 600; letter-spacing: -.3px; line-height: 1; border-left: 1px solid var(--ink); padding: 10px 0 10px 20px; }
-.site-header nav { display: flex; flex-wrap: wrap; gap: 16px 32px; font-size: var(--text-small); }
-.site-header nav a { padding: 10px 0; }
-.site-header nav a.active { text-decoration: underline; text-underline-offset: 8px; text-decoration-thickness: 1px; }
 
 main { padding: 64px 0 96px; min-height: 65vh; }
 .intro { font-size: var(--text-h2); line-height: 1.25; max-width: 760px; margin-top: 24px; }
@@ -92,17 +89,16 @@ textarea { min-height: 120px; margin-top: 20px; line-height: 1.5; }
 @media (width <= 1050px) {
   :root { --text-h1: 34px; --text-h2: 24px; }
   .site-frame { padding-inline: 28px; }
-  .site-header, .site-header nav { gap: 24px; }
+  .site-header { gap: 24px; }
   .q { grid-template-columns: 150px minmax(0, 1fr); gap: 24px; }
 }
 @media (width <= 700px) {
   :root { --text-h1: 30px; --text-h2: 22px; }
   .site-frame { padding-inline: 16px; }
-  .site-header { display: block; min-height: 0; padding-top: 24px; }
+  .site-header { min-height: 0; padding: 24px 0; }
   .wordmark { gap: 14px; }
   .wordmark img { width: 40px; height: 40px; }
   .wordmark span { padding-left: 14px; }
-  .site-header nav { gap: 16px; margin-top: 16px; padding-bottom: 8px; }
   main { padding: 40px 0 72px; }
   .intro { font-size: 21px; }
   .count { display: block; margin-top: 32px; }
@@ -120,19 +116,10 @@ textarea { min-height: 120px; margin-top: 20px; line-height: 1.5; }
       <img src="https://jacknzheng.github.io/south-park-debating/spc-logo.jpg" width="280" height="280" alt="South Park Commons">
       <span>South Park Debating</span>
     </a>
-    <nav aria-label="Main navigation">
-      <a href="https://jacknzheng.github.io/south-park-debating/">Home</a>
-      <a href="https://jacknzheng.github.io/south-park-debating/leaderboard">Leaderboard</a>
-      <a href="https://jacknzheng.github.io/south-park-debating/archive">Past debates</a>
-      <a href="https://jacknzheng.github.io/south-park-debating/topics">Topics</a>
-      <a href="https://jacknzheng.github.io/south-park-debating/rules">Rules</a>
-      <a class="active" href="./" aria-current="page">Survey</a>
-    </nav>
   </header>
 
   <main id="main">
     <h1>Survey</h1>
-    <p class="intro">Help us shape Tuesday nights.</p>
     <div class="count">
       <p>10 questions</p>
       <p class="subtle">About 3 minutes</p>
@@ -142,7 +129,7 @@ textarea { min-height: 120px; margin-top: 20px; line-height: 1.5; }
       <section class="q" id="name">
         <p class="q-num">Your name</p>
         <div>
-          <input class="explain" name="name" placeholder="Optional — leave blank to stay anonymous" maxlength="200" autocomplete="name" aria-label="Your name (optional)">
+          <input class="explain" name="name" placeholder="Optional" maxlength="200" autocomplete="name" aria-label="Your name (optional)">
         </div>
       </section>
       <section class="q" id="q1">
